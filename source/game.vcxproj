@@ -26,6 +26,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseOfMfc>false</UseOfMfc>
     <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -53,7 +54,9 @@
       <StringPooling>true</StringPooling>
       <Optimization>MaxSpeed</Optimization>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;C_ONLY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -69,9 +72,8 @@
     <Bscmake />
     <Link>
       <LinkDLL>true</LinkDLL>
-      <SubSystem>Windows</SubSystem>
-      <BaseAddress>0x20000000</BaseAddress>
-      <AdditionalDependencies>winmm.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>.\game.def</ModuleDefinitionFile>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
@@ -86,7 +88,7 @@
       <Optimization>Disabled</Optimization>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;BUILDING_REF_GL;PATCHNAME=sl-dm;MODGAMEVERSION=baseq2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;C_ONLY;PATCHNAME=sl-dm;MODGAMEVERSION=baseq2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Midl>
@@ -124,7 +126,10 @@
     <ClCompile Include="a_doorkick.c">
       <BrowseInformation Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</BrowseInformation>
     </ClCompile>
-    <ClCompile Include="a_game.c" />
+    <ClCompile Include="a_game.c">
+      <InlineFunctionExpansion Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Speed</FavorSizeOrSpeed>
+    </ClCompile>
     <ClCompile Include="a_items.c" />
     <ClCompile Include="a_match.c" />
     <ClCompile Include="a_menu.c" />
@@ -192,6 +197,9 @@
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="game.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Makefile" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

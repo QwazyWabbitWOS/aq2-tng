@@ -224,4 +224,7 @@
       <Filter>Resource Files</Filter>
     </CustomBuild>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Makefile" />
+  </ItemGroup>
 </Project>

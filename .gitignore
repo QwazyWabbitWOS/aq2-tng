@@ -24,3 +24,6 @@
 .#*
 .DS_Store
 ._*
+Debug/
+Release/
+source/.vs/
